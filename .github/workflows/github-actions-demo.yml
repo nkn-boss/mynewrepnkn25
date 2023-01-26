@@ -54,7 +54,7 @@ jobs:
       run: sfdx force:auth:jwt:grant --clientid $SF_CLIENT_ID --jwtkeyfile $SF_PRIVATE_KEY --username $SF_USERNAME --setdefaultdevhubusername --setalias my-org
 
     - name: Retrieve metadata
-      run: sfdx force:source:retrieve -u my-org-alias -r force-app -x myproject/manifest/package.xml
+      run: sfdx force:source:retrieve -u my-org-alias -r myproject/force-app -x myproject/manifest/package.xml
 
     - name: Commit and push changes
       run: |
