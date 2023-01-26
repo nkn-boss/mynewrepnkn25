@@ -14,11 +14,16 @@ jobs:
       uses: actions/checkout@v2
     - name: Install Salesforce CLI
       run: npm install sfdx-cli --global
-    
+    - name: Run Workflow
+      id: write_file
+      uses: timheuer/base64-to-file@v1.2
+      with:
+        fileName: 'myTemporaryFile.pem'
+        encodedString: ${{ secrets.SF_PRIVATE_KEY }}
     - name: Authenticate with Salesforce using JWT Token
       env:
         SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
-        SF_PRIVATE_KEY: ${{ secrets.SF_PRIVATE_KEY }}
+        SF_PRIVATE_KEY: ${{ steps.write_file.outputs.filePath }}
         SF_USERNAME: ${{ secrets.SF_USERNAME }}
       run: sfdx force:auth:jwt:grant --clientid $SF_CLIENT_ID --jwtkeyfile $SF_PRIVATE_KEY --username $SF_USERNAME --setdefaultdevhubusername --setalias my-org
 
