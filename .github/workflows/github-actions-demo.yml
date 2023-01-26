@@ -40,6 +40,20 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         branch: nkn-boss-patch-1
+    - name: Move files
+      run: mv myproject/* .
+    - name: Remove directory
+      run: rmdir myproject
+    - name: Move Project to root
+      run: |
+        git config --local user.name "nkn-boss"
+        git config --local user.email "nitin.nayan786@gmail.com"
+        git add .
+        git commit -m "Initial commit of SFDX project"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        branch: nkn-boss-patch-1 
     - name: Run Workflow
       id: write_file
       uses: timheuer/base64-to-file@v1.2
