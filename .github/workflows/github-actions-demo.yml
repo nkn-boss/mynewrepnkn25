@@ -16,14 +16,10 @@ jobs:
       run: npm install sfdx-cli --global
     
     - name: Authenticate with Salesforce using JWT Token
-      env:
-        SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
-        SF_PRIVATE_KEY: ${{ secrets.SF_PRIVATE_KEY }}
-        SF_USERNAME: ${{ secrets.SF_USERNAME }}
-      run: sfdx force:auth:jwt:grant --clientid $SF_CLIENT_ID --jwtkeyfile $SF_PRIVATE_KEY --username $SF_USERNAME --setdefaultdevhubusername --setalias my-org-alias
+      run: sfdx force:auth:jwt:grant --clientid 3MVG9pe2TCoA1Pf7qdc9Ay2ASNktlwe.tZrmEb_yA5NhOnI_ubtjHlX4O9vVB4Fr.SkCdg2RMrv2TrniBsnfx --jwtkeyfile server.key --username nkn@tambolalwc.com --instanceurl https://test.salesforce.com --setalias my-org-alias
 
     - name: Retrieve metadata
-      run: sfdx force:source:retrieve -u my-org-alias -r force-app -x manifest/package.xml
+      run: sfdx force:source:retrieve -u my-org-alias -r force-app -x package.xml
 
     - name: Commit and push changes
       run: |
