@@ -1,18 +1,40 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+name: Pull Salesforce Metadata
+
+on:
+  push:
+    branches:
+    - master
+
 jobs:
-  Explore-GitHub-Actions:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Salesforce DX
+      run: |
+        echo "Installing Salesforce DX CLI"
+        echo "deb https://packages.salesforce.com/repo/apt/ trusty main" | sudo tee /etc/apt/sources.list.d/salesforce-cli.list
+        curl https://packages.salesforce.com/repo/apt/RPM-GPG-KEY-salesforce-software | sudo apt-key add -
+        sudo apt-get update
+        sudo apt-get install sfdx-cli
+    
+    - name: Authenticate with Salesforce using JWT Token
+      env:
+        SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
+        SF_PRIVATE_KEY: ${{ secrets.SF_PRIVATE_KEY }}
+        SF_USERNAME: ${{ secrets.SF_USERNAME }}
+      run: sfdx force:auth:jwt:grant --clientid $SF_CLIENT_ID --jwtkeyfile $SF_PRIVATE_KEY --username $SF_USERNAME --setdefaultdevhubusername --setalias my-org-alias
+
+    - name: Retrieve metadata
+      run: sfdx force:source:retrieve -u my-org-alias -r force-app -x manifest/package.xml
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "github-actions@example.com"
+        git config --local user.name "GitHub Actions"
+        git add .
+        git commit -m "Retrieved metadata from Salesforce"
+        git push
