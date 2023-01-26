@@ -20,7 +20,7 @@ jobs:
         SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
         SF_PRIVATE_KEY: ${{ secrets.SF_PRIVATE_KEY }}
         SF_USERNAME: ${{ secrets.SF_USERNAME }}
-      run: sfdx force:auth:jwt:grant --clientid $SF_CLIENT_ID --jwtkeyfile $SF_PRIVATE_KEY --username $SF_USERNAME --setdefaultdevhubusername --setalias my-org-alias
+      run: sfdx force:auth:jwt:grant --clientid $SF_CLIENT_ID --jwtkeyfile $SF_PRIVATE_KEY --username $SF_USERNAME --setdefaultdevhubusername --setalias my-org
 
     - name: Retrieve metadata
       run: sfdx force:source:retrieve -u my-org-alias -r force-app -x package.xml
