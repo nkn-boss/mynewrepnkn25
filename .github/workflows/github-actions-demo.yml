@@ -3,7 +3,7 @@ name: Pull Salesforce Metadata
 on:
   push:
     branches:
-    - master
+    - nkn-boss-patch-1
 
 jobs:
   build:
