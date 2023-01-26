@@ -30,12 +30,12 @@ jobs:
       run: sfdx force:auth:jwt:grant --clientid $SF_CLIENT_ID --jwtkeyfile $SF_PRIVATE_KEY --username $SF_USERNAME --setdefaultdevhubusername --setalias my-org
 
     - name: Retrieve metadata
-      run: sfdx force:source:retrieve -u my-org-alias -r force-app -x package.xml
+      run: sfdx force:source:retrieve -u my-org-alias -r force-app -x manifest/package.xml
 
     - name: Commit and push changes
-      run: |
-        git config --local user.email "github-actions@example.com"
-        git config --local user.name "GitHub Actions"
+      run:
+        git config --local user.email "nitin.nayan786@gmail.com"
+        git config --local user.name "nkn-boss"
         git add .
         git commit -m "Retrieved metadata from Salesforce"
         git push
