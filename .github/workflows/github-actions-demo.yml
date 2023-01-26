@@ -42,8 +42,6 @@ jobs:
         branch: nkn-boss-patch-1
     - name: Move files
       run: mv myproject/* .
-    - name: Remove directory
-      run: rmdir myproject
     - name: Move Project to root
       run: |
         git config --local user.name "nkn-boss"
@@ -68,7 +66,7 @@ jobs:
       run: sfdx force:auth:jwt:grant --clientid $SF_CLIENT_ID --jwtkeyfile $SF_PRIVATE_KEY --username $SF_USERNAME --setdefaultdevhubusername --setalias my-org
 
     - name: Retrieve metadata
-      run: sfdx force:source:retrieve -u my-org-alias -r myproject/force-app -x myproject/manifest/package.xml
+      run: sfdx force:source:retrieve -u my-org-alias -r force-app -x manifest/package.xml
 
     - name: Commit and push changes
       run: |
