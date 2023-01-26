@@ -16,13 +16,16 @@ jobs:
       run: npm install sfdx-cli --global
     - name: Create SFDX project
       run: sfdx force:project:create --projectname myproject
-    - name: Commit and push changes
-      run:
-        git config --local user.email "nitin.nayan786@gmail.com"
+    - name: Commit project
+      run: |
         git config --local user.name "nkn-boss"
+        git config --local user.email "nitin.nayan786@gmail.com"
         git add .
-        git commit -m "Salesforce Project"
-        git push
+        git commit -m "Initial commit of SFDX project"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        branch: nkn-boss-patch-1
     - name: Run Workflow
       id: write_file
       uses: timheuer/base64-to-file@v1.2
