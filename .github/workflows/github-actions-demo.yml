@@ -12,14 +12,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Setup Salesforce DX
-      run: |
-        echo "Installing Salesforce DX CLI"
-        echo "deb https://packages.salesforce.com/repo/apt/ trusty main" | sudo tee /etc/apt/sources.list.d/salesforce-cli.list
-        curl https://packages.salesforce.com/repo/apt/RPM-GPG-KEY-salesforce-software | sudo apt-key add -
-        sudo apt-get update
-        sudo apt-get install sfdx-cli
+    - name: Install Salesforce CLI
+      run: npm install sfdx-cli --global
     
     - name: Authenticate with Salesforce using JWT Token
       env:
