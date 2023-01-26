@@ -26,6 +26,20 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         branch: nkn-boss-patch-1
+    - name: Create directory
+      run: mkdir myproject/manifest
+    - name: Copy file
+      run: cp package.xml myproject/manifest/package.xml
+    - name: Commit manifest
+      run: |
+        git config --local user.name "nkn-boss"
+        git config --local user.email "nitin.nayan786@gmail.com"
+        git add .
+        git commit -m "Initial commit of SFDX project"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        branch: nkn-boss-patch-1
     - name: Run Workflow
       id: write_file
       uses: timheuer/base64-to-file@v1.2
@@ -40,7 +54,7 @@ jobs:
       run: sfdx force:auth:jwt:grant --clientid $SF_CLIENT_ID --jwtkeyfile $SF_PRIVATE_KEY --username $SF_USERNAME --setdefaultdevhubusername --setalias my-org
 
     - name: Retrieve metadata
-      run: sfdx force:source:retrieve -u my-org-alias -r force-app -x manifest/package.xml
+      run: sfdx force:source:retrieve -u my-org-alias -r force-app -x myproject/manifest/package.xml
 
     - name: Commit and push changes
       run: |
@@ -48,4 +62,7 @@ jobs:
         git config --local user.name "nkn-boss"
         git add .
         git commit -m "Retrieved metadata from Salesforce"
-        git push
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        branch: nkn-boss-patch-1
