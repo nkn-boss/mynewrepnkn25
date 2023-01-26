@@ -43,7 +43,7 @@ jobs:
       run: sfdx force:source:retrieve -u my-org-alias -r force-app -x manifest/package.xml
 
     - name: Commit and push changes
-      run:
+      run: |
         git config --local user.email "nitin.nayan786@gmail.com"
         git config --local user.name "nkn-boss"
         git add .
